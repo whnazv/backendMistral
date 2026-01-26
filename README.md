@@ -133,7 +133,7 @@ El backend:
 2. Lo añade al historial
 3. Construye un prompt estilo:
 
-    <s>[INST] mensaje [/INST]
+\<s>[INST] mensaje [/INST]
 
 4. Envía el prompt al servidor llama.cpp
 5. Recibe la respuesta
@@ -171,4 +171,3 @@ Este proyecto es libre para uso personal y educativo.
 ===========================================================
  FIN DEL README
 ===========================================================
-

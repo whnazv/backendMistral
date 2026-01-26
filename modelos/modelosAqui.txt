@@ -1,0 +1,14 @@
+Esta carpeta no incluye modelos debido a su tamaño.
+
+Para usar el proyecto, descarga el modelo que prefieras desde Hugging Face
+y colócalo en esta carpeta.
+
+Modelos recomendados:
+- Mistral 7B Instruct (GGUF)
+- Mixtral 8x7B (GGUF)
+- Phi-2 (GGUF)
+
+Puedes usar el script de descarga automática:
+    python scripts/download_model.py
+
+Si deseas usar otro modelo, simplemente descárgalo y colócalo aquí.

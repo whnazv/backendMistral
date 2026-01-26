@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat con Llama.cpp</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>Chat con Llama.cpp</h1>
+            <p class="subtitle">Modelo local Mistral / Llama.cpp</p>
+        </header>
+
+        <main class="chat-container">
+            <div id="historial" class="chat-history"></div>
+
+            <div class="input-area">
+                <textarea
+                    id="prompt"
+                    rows="3"
+                    placeholder="Escribe tu pregunta aquí..."
+                ></textarea>
+                <button id="btn-enviar" onclick="enviar()">Enviar</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span>Backend: /v1/completions · Servidor local</span>
+        </footer>
+    </div>
+
+    <script>
+        async function enviar() {
+            const textarea = document.getElementById("prompt");
+            const boton = document.getElementById("btn-enviar");
+            const texto = textarea.value.trim();
+
+            if (!texto) return;
+
+            agregarMensaje("user", texto);
+            textarea.value = "";
+            textarea.focus();
+
+            boton.disabled = true;
+            boton.textContent = "Pensando...";
+
+            try {
+                const res = await fetch("/v1/completions", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ prompt: texto })
+                });
+
+                const data = await res.json();
+                const respuesta = data?.choices?.[0]?.text || "(Sin respuesta)";
+
+                agregarMensaje("assistant", respuesta.trim());
+            } catch (err) {
+                console.error(err);
+                agregarMensaje("assistant", "Ha ocurrido un error al conectar con el backend.");
+            } finally {
+                boton.disabled = false;
+                boton.textContent = "Enviar";
+            }
+        }
+
+        function agregarMensaje(role, content) {
+            const historial = document.getElementById("historial");
+
+            const contenedor = document.createElement("div");
+            contenedor.classList.add("message", role);
+
+            const label = document.createElement("div");
+            label.classList.add("message-role");
+            label.textContent = role === "user" ? "Tú" : "Llama";
+
+            const texto = document.createElement("div");
+            texto.classList.add("message-content");
+            texto.textContent = content;
+
+            contenedor.appendChild(label);
+            contenedor.appendChild(texto);
+            historial.appendChild(contenedor);
+
+            historial.scrollTop = historial.scrollHeight;
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && e.ctrlKey) enviar();
+        });
+    </script>
+</body>
+</html>
+

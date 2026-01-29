@@ -1,3 +1,4 @@
+/*
 ===========================================================
  README DEL PROYECTO — Chat Local con Llama.cpp + Flask
 ===========================================================
@@ -83,7 +84,102 @@ Si usas un script como scripts/download_model.py:
 Este script descargará el modelo y lo guardará en modelos/.
 
 -----------------------------------------------------------
-🚀 6. EJECUTAR EL SERVIDOR DE LLAMA.CPP
+⚡ 6A. COMPILACIÓN DE LLAMA.CPP CON SOPORTE CUDA (OPCIONAL)
+-----------------------------------------------------------
+
+Esta sección es SOLO necesaria si deseas compilar llama.cpp
+manualmente con aceleración por GPU (CUDA).
+
+Si utilizas binarios precompilados, puedes omitir este paso.
+
+-----------------------------------------------------------
+🖥️ REQUISITOS
+-----------------------------------------------------------
+
+- GPU NVIDIA compatible con CUDA
+- Drivers NVIDIA instalados
+- CUDA Toolkit
+- Git, CMake, build-essential
+
+-----------------------------------------------------------
+📦 1. INSTALAR DEPENDENCIAS BÁSICAS
+-----------------------------------------------------------
+
+    sudo apt update
+    sudo apt install -y \
+        git \
+        cmake \
+        build-essential \
+        python3 \
+        python3-pip
+
+-----------------------------------------------------------
+🚀 2. INSTALAR CUDA TOOLKIT
+-----------------------------------------------------------
+
+Verifica primero que tu GPU es compatible:
+https://developer.nvidia.com/cuda-gpus
+
+Instala los drivers NVIDIA (ejemplo):
+
+    sudo apt install -y nvidia-driver-535
+    reboot
+
+Instala CUDA Toolkit (ejemplo):
+
+    sudo apt install -y nvidia-cuda-toolkit
+
+Verifica instalación:
+
+    nvcc --version
+    nvidia-smi
+
+-----------------------------------------------------------
+🦙 3. CLONAR LLAMA.CPP
+-----------------------------------------------------------
+
+    git clone https://github.com/ggerganov/llama.cpp.git
+    cd llama.cpp
+
+-----------------------------------------------------------
+🛠️ 4. COMPILAR LLAMA.CPP CON CUDA
+-----------------------------------------------------------
+
+Usando Make (recomendado):
+
+    make clean
+    make LLAMA_CUBLAS=1 -j$(nproc)
+
+Alternativa usando CMake:
+
+    mkdir build
+    cd build
+    cmake .. -DLLAMA_CUBLAS=ON
+    cmake --build . --config Release -j$(nproc)
+
+-----------------------------------------------------------
+📁 5. BINARIOS GENERADOS
+-----------------------------------------------------------
+
+Una vez compilado, encontrarás binarios como:
+
+- llama-server
+- llama-cli
+
+Puedes copiarlos a la raíz del proyecto
+o añadir la carpeta al PATH del sistema.
+
+-----------------------------------------------------------
+✅ 6. VERIFICACIÓN
+-----------------------------------------------------------
+
+    ./llama-server --help
+
+Si el comando responde correctamente,
+llama.cpp está listo con soporte CUDA.
+
+-----------------------------------------------------------
+🚀 7. EJECUTAR EL SERVIDOR DE LLAMA.CPP
 -----------------------------------------------------------
 
 Una vez tengas el modelo en modelos/, inicia el servidor:
@@ -98,7 +194,7 @@ Esto levantará el servidor en:
     http://localhost:8081
 
 -----------------------------------------------------------
-🧩 7. EJECUTAR EL BACKEND FLASK
+🧩 8. EJECUTAR EL BACKEND FLASK
 -----------------------------------------------------------
 
 Desde la carpeta backend/:
@@ -110,7 +206,7 @@ El backend se iniciará en:
     http://localhost:8000
 
 -----------------------------------------------------------
-💬 8. USAR EL CHAT
+💬 9. USAR EL CHAT
 -----------------------------------------------------------
 
 Abre en tu navegador:
@@ -124,7 +220,7 @@ La interfaz permite:
 - Recibir respuestas del modelo local
 
 -----------------------------------------------------------
-🧠 9. CÓMO FUNCIONA EL BACKEND
+🧠 10. CÓMO FUNCIONA EL BACKEND
 -----------------------------------------------------------
 
 El backend:
@@ -133,7 +229,7 @@ El backend:
 2. Lo añade al historial
 3. Construye un prompt estilo:
 
-\<s>[INST] mensaje [/INST]
+<s>[INST] mensaje [/INST]
 
 4. Envía el prompt al servidor llama.cpp
 5. Recibe la respuesta
@@ -144,7 +240,7 @@ Endpoint principal:
     POST /v1/completions
 
 -----------------------------------------------------------
-🗂️ 10. NOTAS IMPORTANTES
+🗂️ 11. NOTAS IMPORTANTES
 -----------------------------------------------------------
 
 - El historial se guarda en memoria (no persistente)
@@ -153,7 +249,7 @@ Endpoint principal:
 - Proyecto pensado para uso local, no producción
 
 -----------------------------------------------------------
-🛠️ 11. MEJORAS FUTURAS
+🛠️ 12. MEJORAS FUTURAS
 -----------------------------------------------------------
 
 - Persistencia del historial
@@ -163,7 +259,7 @@ Endpoint principal:
 - Descarga automática desde Hugging Face
 
 -----------------------------------------------------------
-📜 12. LICENCIA
+📜 13. LICENCIA
 -----------------------------------------------------------
 
 Este proyecto es libre para uso personal y educativo.
@@ -171,3 +267,4 @@ Este proyecto es libre para uso personal y educativo.
 ===========================================================
  FIN DEL README
 ===========================================================
+*/

@@ -1,4 +1,3 @@
-/*
 ===========================================================
  README DEL PROYECTO — Chat Local con Llama.cpp + Flask
 ===========================================================
@@ -228,9 +227,9 @@ El backend:
 1. Recibe el mensaje del usuario
 2. Lo añade al historial
 3. Construye un prompt estilo:
-
+```
 <s>[INST] mensaje [/INST]
-
+```
 4. Envía el prompt al servidor llama.cpp
 5. Recibe la respuesta
 6. La devuelve al frontend
@@ -267,4 +266,4 @@ Este proyecto es libre para uso personal y educativo.
 ===========================================================
  FIN DEL README
 ===========================================================
-*/
+
